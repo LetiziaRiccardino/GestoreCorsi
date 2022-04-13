@@ -5,8 +5,13 @@
 package it.polito.tdp.corsi;
 
 import java.net.URL;
+import java.util.*;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.corsi.model.Corso;
+import it.polito.tdp.corsi.model.Divisione;
 import it.polito.tdp.corsi.model.Model;
+import it.polito.tdp.corsi.model.Studente;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -46,21 +51,73 @@ public class FXMLController {
 
     @FXML
     void corsiPerPeriodo(ActionEvent event) {
-    	
+    	String periodo= txtPeriodo.getText();
+    	int periodoNumerico;
+    	try {
+    		periodoNumerico=Integer.parseInt(periodo);
+    	}catch(NumberFormatException e){
+    		txtRisultato.setText("Inserisci un periodo numerico!");
+    		return ;
+    	}
+    	if(periodoNumerico<1 ||periodoNumerico>2) {
+    		txtRisultato.setText("Inserire 1 o 2");
+    		return;
+    	}
+    	List<Corso> corsi= this.model.getCorsiByPeriodo(periodoNumerico);
+    	for(Corso c: corsi) {
+    		txtRisultato.appendText(c+"\n");
+    	}
     }
 
     @FXML
     void numeroStudenti(ActionEvent event) {
+    	String periodo= txtPeriodo.getText();
+    	int periodoNumerico;
+    	try {
+    		periodoNumerico=Integer.parseInt(periodo);
+    	}catch(NumberFormatException e){
+    		txtRisultato.setText("Inserisci un periodo numerico!");
+    		return ;
+    	}
+    	if(periodoNumerico<1 ||periodoNumerico>2) {
+    		txtRisultato.setText("Inserire 1 o 2");
+    		return;
+    	}
     	
+    	Map<Corso, Integer> iscritti= this.model.getIscritti(periodoNumerico);
+    	
+    	for(Corso c: iscritti.keySet()) { 
+    		txtRisultato.appendText(c+" "+iscritti.get(c)+"\n");
+    	}
     }
 
     @FXML
-    void stampaDivisione(ActionEvent event) {
-
+    void stampaDivisione(ActionEvent event) {//•Dato il codice di un corso, stampare la divisione degli studenti iscritti tra i vari Corsi di Studio (CDS).
+    	
+    	
+    	String codins =txtCorso.getText();
+    	if(codins==null|| codins.equals("")) { //compareTo lo usiamo per ordinare
+	txtRisultato.appendText("per favore inserisci un codice di un corso");
+	return;
+	}
+    	List<Divisione> risultato=this.model.getDivisioneStudenti(codins);
+    	Collections.sort(risultato);
+    	for(Divisione d: risultato ) {
+    		txtRisultato.appendText(d.getCDS()+ "\t"+ d.getN()+"\n");
+    	}
+    	   	
     }
 
     @FXML
     void stampaStudenti(ActionEvent event) {
+    	String codins =txtCorso.getText();
+    	if(codins==null|| codins.equals("")) { //compareTo lo usiamo per ordinare
+	txtRisultato.appendText("per favore inserisci un codice di un corso");
+	return;
+	}
+    	for(Studente s: this.model.getStudente(codins)) {
+    		txtRisultato.appendText(s+ "\n");
+    	}
 
     }
 
