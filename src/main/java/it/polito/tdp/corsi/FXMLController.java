@@ -94,11 +94,10 @@ public class FXMLController {
     @FXML
     void stampaDivisione(ActionEvent event) {//•Dato il codice di un corso, stampare la divisione degli studenti iscritti tra i vari Corsi di Studio (CDS).
     	
-    	
     	String codins =txtCorso.getText();
-    	if(codins==null|| codins.equals("")) { //compareTo lo usiamo per ordinare
-	txtRisultato.appendText("per favore inserisci un codice di un corso");
-	return;
+    	if(codins==null|| codins.equals("")) { //compareTo lo usiamo per ordinare 
+    		txtRisultato.appendText("per favore inserisci un codice di un corso");
+    		return;
 	}
     	List<Divisione> risultato=this.model.getDivisioneStudenti(codins);
     	Collections.sort(risultato);
