@@ -43,6 +43,7 @@ public class Corso {
 		result = prime * result + ((codins == null) ? 0 : codins.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {//codins è la chiave primaria
 		if (this == obj)
@@ -59,6 +60,8 @@ public class Corso {
 			return false;
 		return true;
 	}
+
+
 	@Override
 	public String toString() {
 		return "Corso [codins=" + codins + ", crediti=" + crediti + ", nome=" + nome + ", pd=" + pd + "]";
